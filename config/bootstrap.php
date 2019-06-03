@@ -14,13 +14,7 @@ require '../vendor/autoload.php';
 $dotenv = Dotenv::create(__DIR__);
 $dotenv->load();
 
-$config = [
-    'settings' => [
-        'displayErrorDetails' => getenv('DEBUG')
-    ]
-];
-
-$app = new App($config);
+$app = new App(require 'settings.php');
 
 // Handle logger.
 // Takes in default logger name and location of logs.
