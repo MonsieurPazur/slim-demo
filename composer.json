@@ -1,0 +1,18 @@
+{
+  "name": "michal/slim",
+  "require": {
+    "slim/slim": "^3.12",
+    "monolog/monolog": "^1.24",
+    "vlucas/phpdotenv": "^3.3",
+    "ext-pgsql": "*",
+    "ext-yaml": "*"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-master"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  }
+}

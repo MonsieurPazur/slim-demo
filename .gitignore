@@ -1,0 +1,7 @@
+.idea
+.php_cs.cache
+
+/vendor/
+/logs/
+
+/config/.env

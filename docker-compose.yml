@@ -1,0 +1,35 @@
+version: '2'
+
+volumes:
+    logs:
+        driver: local
+
+services:
+    slim-web:
+        build: docker/nginx
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - .:/var/www
+            - ./docker/nginx/slim.conf:/etc/nginx/conf.d/slim.conf
+        links:
+            - slim-php
+
+    slim-php:
+        build: docker/php
+        working_dir: /var/www
+        environment:
+            docker: "true"
+        volumes:
+            - .:/var/www
+            - logs:/var/www/logs
+
+    slim-pgsql:
+        build: docker/pgsql
+        ports:
+            - "5432:5432"
+        environment:
+            POSTGRES_DB: slim
+            POSTGRES_USER: michal
+            POSTGRES_PASSWORD: password

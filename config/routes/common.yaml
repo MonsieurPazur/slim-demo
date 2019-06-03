@@ -1,0 +1,5 @@
+index:
+  method: 'GET'
+  route: '/'
+  controller: 'Home'
+  action: 'index'
