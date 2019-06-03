@@ -1,5 +1,6 @@
 <?php
 
+use App\Core\ErrorHandler;
 use App\Core\Logger;
 use App\Core\Router;
 use Dotenv\Dotenv;
@@ -30,6 +31,11 @@ try {
     );
 } catch (Exception $e) {
 }
+
+// Handle errors.
+$container['errorHandler'] = static function ($container) {
+    return new ErrorHandler($container);
+};
 
 // Handle router.
 // Takes in array of routes files (from config/routes/).
