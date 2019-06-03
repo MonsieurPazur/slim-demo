@@ -4,12 +4,11 @@
  * Custom error handler, logs errors and handles error responses.
  */
 
-namespace App\Core;
+namespace App\Core\Handler;
 
+use App\Handler\CustomHandler;
 use Exception;
-use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Log\LoggerInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -18,23 +17,8 @@ use Slim\Http\Response;
  *
  * @package App\Core
  */
-class ErrorHandler
+class ErrorHandler extends CustomHandler
 {
-    /**
-     * @var LoggerInterface $logger used to log error
-     */
-    private $logger;
-
-    /**
-     * ErrorHandler constructor.
-     *
-     * @param ContainerInterface $container
-     */
-    public function __construct(ContainerInterface $container)
-    {
-        $this->logger = $container->get('logger');
-    }
-
     /**
      * Logs error and returns appropriate response.
      *
@@ -48,8 +32,8 @@ class ErrorHandler
     {
         $this->logger->critical($exception->getMessage());
         return $response
-            ->withStatus(500)
+            ->withStatus(self::INTERNAL_SERVER_ERROR_CODE)
             ->withHeader('Content-Type', 'text/html')
-            ->write('Something went wrong!');
+            ->write('Something went wrong.');
     }
 }
