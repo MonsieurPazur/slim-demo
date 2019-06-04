@@ -4,11 +4,12 @@
     "slim/slim": "^3.12",
     "monolog/monolog": "^1.24",
     "vlucas/phpdotenv": "^3.3",
-    "ext-pgsql": "*",
-    "ext-yaml": "*"
+    "symfony/yaml": "^4.3"
   },
   "require-dev": {
-    "roave/security-advisories": "dev-master"
+    "roave/security-advisories": "dev-master",
+    "zeuxisoo/slim-whoops": "0.6.*",
+    "symfony/var-dumper": "^4.3"
   },
   "autoload": {
     "psr-4": {

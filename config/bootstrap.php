@@ -1,12 +1,13 @@
 <?php
 
-use App\Core\Handler\ErrorHandler;
 use App\Core\Logger;
 use App\Core\Router;
+use App\Handler\ErrorHandler;
 use App\Handler\NotAllowedHandler;
 use App\Handler\NotFoundHandler;
 use Dotenv\Dotenv;
 use Slim\App;
+use Zeuxisoo\Whoops\Provider\Slim\WhoopsMiddleware;
 
 require '../vendor/autoload.php';
 
@@ -17,7 +18,6 @@ $dotenv->load();
 $app = new App(require 'settings.php');
 
 // Handle logger.
-// Takes in default logger name and location of logs.
 $container = $app->getContainer();
 try {
     $container['logger'] = Logger::initialize(
@@ -26,6 +26,17 @@ try {
         Monolog\Logger::DEBUG
     );
 } catch (Exception $e) {
+}
+
+// Handle middleware.
+//
+// Load whoops only in debug mode.
+// In other cases standard ErrorHandler should be used.
+//
+// Note: whoops won't handle anything if debug=0 but we don't want
+// to load it at all, when debug is disabled.
+if ((bool)getenv('DEBUG')) {
+    $app->add(new WhoopsMiddleware($app));
 }
 
 // Handle errors.

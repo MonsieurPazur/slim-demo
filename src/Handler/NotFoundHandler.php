@@ -29,10 +29,14 @@ class NotFoundHandler extends CustomHandler
      */
     public function __invoke(Request $request, Response $response, Exception $exception): ResponseInterface
     {
-        $this->logger->error($exception->getMessage());
-        return $response
-            ->withStatus(self::NOT_FOUND_CODE)
-            ->withHeader('Content-Type', 'text/html')
-            ->write('Not found.');
+        try {
+            $this->logger->error($exception->getMessage());
+        } catch (Exception $e) {
+        } finally {
+            return $response
+                ->withStatus(self::NOT_FOUND_CODE)
+                ->withHeader('Content-Type', 'text/html')
+                ->write('Not found.');
+        }
     }
 }

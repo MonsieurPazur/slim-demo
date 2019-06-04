@@ -2,6 +2,7 @@
 
 return [
     'settings' => [
-        'displayErrorDetails' => getenv('DEBUG')
+        'displayErrorDetails' => (bool)getenv('DEBUG'),
+        'debug' => (bool)getenv('DEBUG')
     ]
 ];

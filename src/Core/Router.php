@@ -7,6 +7,7 @@
 namespace App\Core;
 
 use Slim\App;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class Router
@@ -43,7 +44,7 @@ class Router
     public function createRoutes(): void
     {
         foreach ($this->files as $file) {
-            $routes = yaml_parse_file(getenv('ROOT_DIR') . '/config/routes/' . $file);
+            $routes = Yaml::parseFile(getenv('ROOT_DIR') . 'config/routes/' . $file);
             foreach ($routes as $name => $route) {
                 $callback = '\\App\\Controller\\' . $route['controller'] .'Controller:' . $route['action'];
                 $this->app->map([$route['method']], $route['route'], $callback);

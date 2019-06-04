@@ -29,10 +29,14 @@ class NotAllowedHandler extends CustomHandler
      */
     public function __invoke(Request $request, Response $response, Exception $exception): ResponseInterface
     {
-        $this->logger->error($exception->getMessage());
-        return $response
-            ->withStatus(self::METHOD_NOT_ALLOWED_CODE)
-            ->withHeader('Content-Type', 'text/html')
-            ->write('Method not allowed.');
+        try {
+            $this->logger->error($exception->getMessage());
+        } catch (Exception $e) {
+        } finally {
+            return $response
+                ->withStatus(self::METHOD_NOT_ALLOWED_CODE)
+                ->withHeader('Content-Type', 'text/html')
+                ->write('Method not allowed.');
+        }
     }
 }

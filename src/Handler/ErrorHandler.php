@@ -4,9 +4,8 @@
  * Custom error handler, logs errors and handles error responses.
  */
 
-namespace App\Core\Handler;
+namespace App\Handler;
 
-use App\Handler\CustomHandler;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
@@ -30,10 +29,14 @@ class ErrorHandler extends CustomHandler
      */
     public function __invoke(Request $request, Response $response, Exception $exception): ResponseInterface
     {
-        $this->logger->critical($exception->getMessage());
-        return $response
-            ->withStatus(self::INTERNAL_SERVER_ERROR_CODE)
-            ->withHeader('Content-Type', 'text/html')
-            ->write('Something went wrong.');
+        try {
+            $this->logger->critical($exception->getMessage());
+        } catch (Exception $e) {
+        } finally {
+            return $response
+                ->withStatus(self::INTERNAL_SERVER_ERROR_CODE)
+                ->withHeader('Content-Type', 'text/html')
+                ->write('Something went wrong.');
+        }
     }
 }
